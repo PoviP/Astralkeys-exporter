@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astral Keys Monitor v3.0</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Astral Keys Monitor v3.0</h1>
+            <p>Fresh & Clean - Monitor your WoW AstralKeys.lua file</p>
+        </header>
+
+        <main>
+            <!-- Status Section -->
+            <section class="status-section">
+                <div class="status-card">
+                    <h3>📊 Status</h3>
+                    <div class="status-indicator">
+                        <span id="status-dot" class="status-dot stopped"></span>
+                        <span id="status-text">Stopped</span>
+                    </div>
+                    <div id="file-info" class="file-info hidden">
+                        <strong>Monitoring:</strong> <span id="current-file">No file selected</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Control Section -->
+            <section class="control-section">
+                <div class="control-card">
+                    <h3>🎛️ Controls</h3>
+                    <div class="button-group">
+                        <button id="start-btn" class="btn btn-primary">Start Monitoring</button>
+                        <button id="stop-btn" class="btn btn-danger" disabled>Stop Monitoring</button>
+                    </div>
+                    <div class="button-group">
+                        <button id="select-file-btn" class="btn btn-secondary">Select File</button>
+                        <button id="test-btn" class="btn btn-info">Test Connection</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section class="settings-section">
+                <div class="settings-card">
+                    <h3>⚙️ Settings</h3>
+                    <div class="setting-item">
+                        <label for="mongodb-uri">MongoDB Connection String:</label>
+                        <input type="text" id="mongodb-uri" placeholder="mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/YOUR_DATABASE">
+                        <button id="save-mongodb-btn">Save</button>
+                    </div>
+                    <div class="setting-item">
+                        <label for="autostart-toggle">Auto-start with Windows:</label>
+                        <input type="checkbox" id="autostart-toggle">
+                    </div>
+                    <div class="setting-item">
+                        <label for="autostart-monitoring-toggle">Auto-start monitoring:</label>
+                        <input type="checkbox" id="autostart-monitoring-toggle">
+                    </div>
+                    <div class="setting-item">
+                        <label>Current File:</label>
+                        <span id="settings-file-path">No file selected</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Log Section -->
+            <section class="log-section">
+                <div class="log-card">
+                    <h3>📝 Activity Log</h3>
+                    <div id="log-container" class="log-container">
+                        <div class="log-entry info">Welcome to Astral Keys Monitor v3.0!</div>
+                        <div class="log-entry info">Fresh start with clean code.</div>
+                    </div>
+                    <button id="clear-log-btn" class="btn btn-small">Clear Log</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

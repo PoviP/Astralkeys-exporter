@@ -1,0 +1,38 @@
+{
+  "name": "astral-keys-monitor-fresh",
+  "version": "3.0.0",
+  "description": "Fresh Astral Keys Monitor - Clean and Simple",
+  "author": "Astral Keys Monitor Team",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win --x64 --publish=never",
+    "build-portable": "electron-builder --win --x64 --publish=never --config electron-builder.json"
+  },
+  "build": {
+    "appId": "com.astralkeys.monitor.fresh",
+    "productName": "Astral Keys Monitor v3.0",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "config.json",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    }
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.6.4"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.3",
+    "conf": "^12.0.0",
+    "mongodb": "^6.3.0"
+  }
+}

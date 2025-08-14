@@ -1,0 +1,8 @@
+{
+  "_comment": "This is an example configuration file. Replace the placeholder values with your actual settings.",
+  "mongodbUri": "mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/YOUR_DATABASE?retryWrites=true&w=majority",
+  "astralKeysPath": "C:\\Program Files (x86)\\World of Warcraft\\_retail_\\WTF\\Account\\YOUR_ACCOUNT\\SavedVariables\\AstralKeys.lua",
+  "autoStart": false,
+  "autoStartMonitoring": false,
+  "setupCompleted": false
+}
