@@ -1,8 +1,8 @@
 {
-  "name": "astral-keys-monitor-fresh",
+  "name": "astral-keys-monitor",
   "version": "3.0.0",
-  "description": "Fresh Astral Keys Monitor - Clean and Simple",
-  "author": "Astral Keys Monitor Team",
+  "description": "Astral Keys Monitor - WoW Keystone Tracking",
+  "author": "Astral Keys Monitor",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
@@ -10,8 +10,8 @@
     "build-portable": "electron-builder --win --x64 --publish=never --config electron-builder.json"
   },
   "build": {
-    "appId": "com.astralkeys.monitor.fresh",
-    "productName": "Astral Keys Monitor v3.0",
+    "appId": "com.astralkeys.monitor",
+    "productName": "Astral Keys Monitor",
     "directories": {
       "output": "dist"
     },

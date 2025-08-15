@@ -36,8 +36,8 @@ header p {
 
 main {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
 }
 
 section {
@@ -102,6 +102,11 @@ h3 {
     border-radius: 8px;
     border-left: 4px solid #4299e1;
     font-size: 0.9em;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    white-space: normal;
 }
 
 .file-info.hidden {
@@ -253,6 +258,7 @@ h3 {
     
     main {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
     
     .button-group {
@@ -265,6 +271,18 @@ h3 {
     
     header h1 {
         font-size: 2em;
+    }
+    
+    .file-info {
+        font-size: 0.8em;
+        padding: 8px;
+    }
+}
+
+/* Handle very long file paths */
+@media (max-width: 1200px) {
+    .file-info {
+        font-size: 0.85em;
     }
 }
 

@@ -33,7 +33,7 @@ class AutoStartManager {
       const vbsContent = `' Astral Keys Monitor - Auto Start
 Set WshShell = CreateObject("WScript.Shell")
 WshShell.CurrentDirectory = "${appDir.replace(/\\/g, '\\\\')}"
-WshShell.Run """${appPath.replace(/\\/g, '\\\\')}""", 0, False`;
+WshShell.Run """${appPath.replace(/\\/g, '\\\\')}""", 1, False`;
 
       const vbsPath = path.join(this.startupFolder, 'AstralKeysMonitor.vbs');
       fs.writeFileSync(vbsPath, vbsContent);

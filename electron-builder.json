@@ -1,6 +1,6 @@
 {
-  "appId": "com.astralkeys.monitor.fresh",
-  "productName": "Astral Keys Monitor v3.0",
+  "appId": "com.astralkeys.monitor",
+  "productName": "Astral Keys Monitor",
   "directories": {
     "output": "dist"
   },
@@ -17,7 +17,7 @@
     "icon": "assets/icon.ico"
   },
   "portable": {
-    "artifactName": "AstralKeysMonitor-v3.0.exe"
+    "artifactName": "AstralKeysMonitor.exe"
   },
   "asar": true,
   "asarUnpack": [

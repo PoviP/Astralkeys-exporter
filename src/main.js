@@ -3,6 +3,22 @@ const path = require('path');
 const fs = require('fs');
 const { AutoStartManager } = require('./autostart');
 
+// Ensure only one instance is running
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+  console.log('Another instance is already running, quitting...');
+  app.quit();
+  return;
+}
+
+// Handle second instance launch
+app.on('second-instance', () => {
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    mainWindow.focus();
+  }
+});
+
 // Import our modules
 const LuaParser = require('./lua-parser');
 const DungeonMapper = require('./dungeon-mapper');
