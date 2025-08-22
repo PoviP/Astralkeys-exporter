@@ -92,23 +92,21 @@ class MongoDBHandler {
             computer_name: require('os').hostname()
           };
 
-          // Check if existing document has newer timestamp
+          // Check if existing document for this character in this week (regardless of dungeon)
           const existingDoc = await this.collection.findOne({
             character_name: keystone.character_name,
             realm: keystone.realm,
-            dungeon_id: keystone.dungeon_id,
             week: keystone.week
           });
 
           if (existingDoc) {
             // Compare timestamps - only update if new data is newer
             if (keystone.time_stamp > existingDoc.wow_timestamp) {
-              // New data is newer, update it
+              // New data is newer, update it (replace the character's keystone for this week)
               const updateResult = await this.collection.updateOne(
                 {
                   character_name: keystone.character_name,
                   realm: keystone.realm,
-                  dungeon_id: keystone.dungeon_id,
                   week: keystone.week
                 },
                 { $set: document }

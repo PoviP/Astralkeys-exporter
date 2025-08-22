@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const { execSync } = require('child_process');
 
 class AutoStartManager {
   constructor() {
@@ -27,18 +28,14 @@ class AutoStartManager {
 
       // Get the path to the current executable
       const appPath = process.execPath;
-      const appDir = path.dirname(appPath);
+      const shortcutPath = path.join(this.startupFolder, 'Astral Keys Monitor.lnk');
       
-      // Create a VBS script that runs the app hidden
-      const vbsContent = `' Astral Keys Monitor - Auto Start
-Set WshShell = CreateObject("WScript.Shell")
-WshShell.CurrentDirectory = "${appDir.replace(/\\/g, '\\\\')}"
-WshShell.Run """${appPath.replace(/\\/g, '\\\\')}""", 1, False`;
+      // Create Windows shortcut using PowerShell with proper escaping
+      const psCommand = `$WshShell = New-Object -comObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut('${shortcutPath.replace(/\\/g, '\\\\')}'); $Shortcut.TargetPath = '${appPath.replace(/\\/g, '\\\\')}'; $Shortcut.WorkingDirectory = '${path.dirname(appPath).replace(/\\/g, '\\\\')}'; $Shortcut.WindowStyle = 7; $Shortcut.Save()`;
+      
+      execSync(`powershell -Command "${psCommand}"`, { stdio: 'pipe' });
 
-      const vbsPath = path.join(this.startupFolder, 'AstralKeysMonitor.vbs');
-      fs.writeFileSync(vbsPath, vbsContent);
-
-      console.log('Auto-start enabled. VBS file created at:', vbsPath);
+      console.log('Auto-start enabled. Shortcut created at:', shortcutPath);
       return true;
     } catch (error) {
       throw new Error(`Failed to enable auto-start: ${error.message}`);
@@ -51,18 +48,25 @@ WshShell.Run """${appPath.replace(/\\/g, '\\\\')}""", 1, False`;
     }
 
     try {
+      const shortcutPath = path.join(this.startupFolder, 'Astral Keys Monitor.lnk');
       const vbsPath = path.join(this.startupFolder, 'AstralKeysMonitor.vbs');
       const batchPath = path.join(this.startupFolder, 'AstralKeysMonitor.bat');
 
-      // Remove both VBS and batch files if they exist
+      // Remove shortcut if it exists
+      if (fs.existsSync(shortcutPath)) {
+        fs.unlinkSync(shortcutPath);
+        console.log('Auto-start disabled. Shortcut removed:', shortcutPath);
+      }
+
+      // Also clean up any old VBS or batch files if they exist
       if (fs.existsSync(vbsPath)) {
         fs.unlinkSync(vbsPath);
-        console.log('Auto-start disabled. VBS file removed:', vbsPath);
+        console.log('Auto-start disabled. Old VBS file removed:', vbsPath);
       }
 
       if (fs.existsSync(batchPath)) {
         fs.unlinkSync(batchPath);
-        console.log('Auto-start disabled. Batch file removed:', batchPath);
+        console.log('Auto-start disabled. Old batch file removed:', batchPath);
       }
 
       return true;
@@ -77,10 +81,12 @@ WshShell.Run """${appPath.replace(/\\/g, '\\\\')}""", 1, False`;
     }
 
     try {
+      const shortcutPath = path.join(this.startupFolder, 'Astral Keys Monitor.lnk');
       const vbsPath = path.join(this.startupFolder, 'AstralKeysMonitor.vbs');
       const batchPath = path.join(this.startupFolder, 'AstralKeysMonitor.bat');
 
-      return fs.existsSync(vbsPath) || fs.existsSync(batchPath);
+      // Check for any of the autostart methods
+      return fs.existsSync(shortcutPath) || fs.existsSync(vbsPath) || fs.existsSync(batchPath);
     } catch (error) {
       return false;
     }
@@ -93,23 +99,23 @@ WshShell.Run """${appPath.replace(/\\/g, '\\\\')}""", 1, False`;
 
     try {
       const vbsPath = path.join(this.startupFolder, 'AstralKeysMonitor.vbs');
+      const batchPath = path.join(this.startupFolder, 'AstralKeysMonitor.bat');
       
-      if (fs.existsSync(vbsPath)) {
-        const content = fs.readFileSync(vbsPath, 'utf8');
+      // If old VBS or batch files exist, replace them with a shortcut
+      if (fs.existsSync(vbsPath) || fs.existsSync(batchPath)) {
+        console.log('Found old autostart files, replacing with shortcut...');
         
-        // Check if the file needs updating (look for old Node.js command)
-        if (content.includes('node src/main.js')) {
-          const appPath = process.execPath;
-          const appDir = path.dirname(appPath);
-          
-          const vbsContent = `' Astral Keys Monitor - Auto Start
-Set WshShell = CreateObject("WScript.Shell")
-WshShell.CurrentDirectory = "${appDir.replace(/\\/g, '\\\\')}"
-WshShell.Run """${appPath.replace(/\\/g, '\\\\')}""", 0, False`;
-          
-          fs.writeFileSync(vbsPath, vbsContent);
-          console.log('Updated existing auto-start file to use Electron app');
+        // Remove old files
+        if (fs.existsSync(vbsPath)) {
+          fs.unlinkSync(vbsPath);
         }
+        if (fs.existsSync(batchPath)) {
+          fs.unlinkSync(batchPath);
+        }
+        
+        // Create new shortcut
+        await this.enable();
+        console.log('Updated autostart to use shortcut method');
       }
     } catch (error) {
       // Silently fail - this is not critical
